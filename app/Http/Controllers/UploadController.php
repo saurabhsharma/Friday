@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Chumper\Zipper\Zipper;
+use Storage;
 
 class UploadController extends Controller
 {
@@ -40,18 +41,12 @@ class UploadController extends Controller
 	$newFullFileName = $newFileName.'.'.$file->getClientOriginalExtension();
 
 	//Move Uploaded File
-	$file->move($destinationPath, $newFullFileName);
 
+	$path = $request->file('build')->storeAs('', $newFullFileName, 'uploads');
 
-	// // unzipping the .ipa file to read it
-	// //if (File::exists(public_path().$newFileName)) {
-	// 	$zipper = new \Chumper\Zipper\Zipper;
+	echo "\nFile stored at -".$path;
 
-	// 	//Zipper::make(public_path().$newFileName)->folder('test')->extractTo('foo');
-
-	// 	$zipper->zip($newFullFileName)->folder($newFileName)->extractTo(public_path() ."/uploads/".$newFileName);
-          
- //    //}
+	 
 
 
 
