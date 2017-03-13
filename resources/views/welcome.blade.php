@@ -61,7 +61,30 @@
 
             .m-b-md {
                 margin-bottom: 30px;
+
+                color: #636b6f;
+                padding: 0 25px;
+                text-decoration: none;
+                 
             }
+
+            a:link {
+                text-decoration: none;
+            }
+
+            a:visited {
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: none;
+            }
+
+            a:active {
+                text-decoration: none;
+            }
+
+
         </style>
     </head>
     <body>
@@ -78,10 +101,13 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Friday!
+                <a href="{{ url('/upload/') }}"><div class="title m-b-md">
+                    Friday!   
                 </div>
+                </a>
+                <div> 
 
+                </div>
               
             </div>
         </div>
