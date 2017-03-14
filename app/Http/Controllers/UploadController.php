@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Chumper\Zipper\Zipper;
 use Storage;
+use File;
 
 class UploadController extends Controller
 {
@@ -43,13 +44,29 @@ class UploadController extends Controller
 	// todo: will implement some file verification and security checks
 	//Move Uploaded File 
 
-	$path = $request->file('build')->storeAs('', $buildFileName, 'uploads');
+	$request->file('build')->storeAs('', $buildFileName, 'uploads');
 
-	 
-	echo "File stored at -".$path;
+	// getting full file path
+	$buildUploadFolderPath = Storage::disk('uploads')->getDriver()->getAdapter()->getPathPrefix();
+	$buildFullPath = $buildUploadFolderPath.$buildFileName;
 
-	echo "full file path ".$buildFullPath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix().$buildFileName;
+	//echo "Build Uploaded here - ".$buildFullPath;
+	// unzipping the uploaded ipa file
+	// todo: need to do some security checks here 
+	$zipper = new \Chumper\Zipper\Zipper;
+	$zipper->zip($buildFullPath)->extractTo($buildUploadFolderPath.$uniqueId);
 
+     
+	// reading info.plist file
+	// todo: need to implement some security checks
+ 
+	$infoPlistContents = File::get(File::directories($buildUploadFolderPath.$uniqueId."/Payload")[0]."/info.plist");
+ 
+	$xml = simplexml_load_string($infoPlistContents, "SimpleXMLElement", LIBXML_NOCDATA);
+	$json = json_encode($xml);
+	$infoPlistArr = json_decode($json,TRUE);
+
+	dd($infoPlistArr);
 
 
 }
