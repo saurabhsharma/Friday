@@ -12,41 +12,43 @@ class UploadController extends Controller
       return view('upload');
    }
    public function showUploadFile(Request $request){
+
 	$file = $request->file('build');
    
-	//Display File Name
-	echo 'File Name: '.$file->getClientOriginalName();
-	echo '<br>';
+	// //Display File Name
+	// echo 'File Name: '.$file->getClientOriginalName();
+	// echo '<br>';
    
-	//Display File Extension
-	echo 'File Extension: '.$file->getClientOriginalExtension();
-	echo '<br>';
+	// //Display File Extension
+	// echo 'File Extension: '.$file->getClientOriginalExtension();
+	// echo '<br>';
    
-	//Display File Real Path
-	echo 'File Real Path: '.$file->getRealPath();
-	echo '<br>';
+	// //Display File Real Path
+	// echo 'File Real Path: '.$file->getRealPath();
+	// echo '<br>';
    
-	//Display File Size
-	echo 'File Size: '.$file->getSize();
-	echo '<br>';
+	// //Display File Size
+	// echo 'File Size: '.$file->getSize();
+	// echo '<br>';
    
-	//Display File Mime Type
-	echo 'File Mime Type: '.$file->getMimeType();
+	// //Display File Mime Type
+	// echo 'File Mime Type: '.$file->getMimeType();
    
       
 	// Generating random filename
-	$destinationPath = public_path().'/uploads';
-	echo "Destination path ".$destinationPath;
-	$newFileName = $this->getToken(6);
-	$newFullFileName = $newFileName.'.'.$file->getClientOriginalExtension();
+ 
+	$uniqueId = $this->getToken(6);
+	$buildFileName = $uniqueId.'.'.$file->getClientOriginalExtension();
 
-	//Move Uploaded File
+	// todo: will implement some file verification and security checks
+	//Move Uploaded File 
 
-	$path = $request->file('build')->storeAs('', $newFullFileName, 'uploads');
-
-	echo "\nFile stored at -".$path;
+	$path = $request->file('build')->storeAs('', $buildFileName, 'uploads');
 
 	 
+	echo "File stored at -".$path;
+
+	echo "full file path ".$buildFullPath = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix().$buildFileName;
 
 
 
